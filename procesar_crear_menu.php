@@ -5,7 +5,7 @@ $nombre = $_POST['nombre'];
 $tipo = $_POST['tipo'];
 
 $sql = "INSERT INTO menu (nombre, tipo) VALUES (?, ?)";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("ss", $nombre, $tipo);
 $stmt->execute();
 

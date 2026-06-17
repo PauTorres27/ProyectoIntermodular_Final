@@ -18,16 +18,24 @@ $sql = "UPDATE reserva
             estado = ?
         WHERE Id_Reserva = ?";
 
-
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 if (!$stmt) {
-     die("Error en prepare(): " . $conexion->error); 
+     die("Error en prepare(): " . $conn->error); 
 }
 
-$stmt->bind_param("iissisi", $usuario, $mesa, $fecha, $hora, $personas, $estado, $id);
+$stmt->bind_param("iissisi", 
+    $usuario, 
+    $mesa, 
+    $fecha, 
+    $hora, 
+    $personas, 
+    $estado, 
+    $id
+);
+
 $stmt->execute();
 
-header("Location: reserva_listar.php");
+header("Location: admin_reservas.php");
 exit();
 ?>

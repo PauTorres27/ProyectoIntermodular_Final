@@ -9,7 +9,7 @@ if (!isset($_SESSION['Id_Usuario']) || $_SESSION['rol'] !== "admin") {
 }
 
 $sql = "SELECT * FROM mesa";
-$resultado = $conexion->query($sql);
+$resultado = $conn->query($sql);
 ?>
 
 

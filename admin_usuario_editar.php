@@ -17,10 +17,10 @@ $id = $_GET['id'];
 
 //Obtenemos datos del usuario
 $sql = "SELECT * FROM usuario WHERE Id_Usuario = ?";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 if (!$stmt) {
-    die("Error en prepare(): " . $conexion->error);
+    die("Error en prepare(): " . $conn->error);
 }
 
 $stmt->bind_param("i", $id);
@@ -34,7 +34,7 @@ if ($resultado->num_rows === 0) {
 
 $usuario = $resultado->fetch_assoc();
 
-//Si el formulario se envío
+//Si el formulario se envió
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nombre = $_POST['nombre'];
@@ -42,25 +42,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telefono = $_POST['telefono'];
     $rol = $_POST['rol'];
 
-    if (!empty($_POST['contrasena'])) {
-        $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
-    } else {
-        $contrasena = $usuario['contrasena'];
-    }
+    // Validar email duplicado (excepto si es el mismo del usuario actual)
+    $sql_check = "SELECT * FROM usuario WHERE email = ? AND Id_Usuario != ?";
+    $stmt_check = $conn->prepare($sql_check);
+    $stmt_check->bind_param("si", $email, $id);
+    $stmt_check->execute();
+    $resultado_check = $stmt_check->get_result();
 
-    //Actualizar usuario
-    $sql = "UPDATE usuario SET nombre = ?, email = ?, contrasena = ?, telefono = ?, rol = ? WHERE Id_Usuario = ?";
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("sssssi", $nombre, $email, $contrasena, $telefono, $rol, $id);
-
-    if ($stmt->execute()) {
-    header("Location: admin_usuarios.php");
-    exit();
+    if ($resultado_check->num_rows > 0) {
+        $error = "El correo ya está registrado por otro usuario";
     } else {
-    $error = "Error al actualizar al usuario";
+
+        //Contraseña: si está vacía, mantenemos la actual
+        if (!empty($_POST['contrasena'])) {
+            $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
+        } else {
+            $contrasena = $usuario['contrasena'];
+        }
+
+        //Actualizar usuario
+        $sql = "UPDATE usuario SET nombre = ?, email = ?, contrasena = ?, telefono = ?, rol = ? WHERE Id_Usuario = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssi", $nombre, $email, $contrasena, $telefono, $rol, $id);
+
+        if ($stmt->execute()) {
+            header("Location: admin_usuarios.php");
+            exit();
+        } else {
+            $error = "Error al actualizar al usuario";
+        }
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>

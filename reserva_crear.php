@@ -10,12 +10,12 @@ if (!isset($_SESSION['Id_Usuario']) || $_SESSION['rol'] !== "admin") {
 
 //Obtener usuarios
 $sqlUsuarios = "SELECT Id_Usuario, nombre FROM usuario";
-$usuarios = $conexion->query($sqlUsuarios);
+$usuarios = $conn->query($sqlUsuarios);
 
 
 //Obtener mesas
 $sqlMesas = "SELECT Id_mesa, numero_mesa FROM mesa";
-$mesas = $conexion->query($sqlMesas);
+$mesas = $conn->query($sqlMesas);
 ?>
 
 <!DOCTYPE html>

@@ -8,27 +8,38 @@ if (!isset($_SESSION['Id_Usuario']) || $_SESSION['rol'] !== "admin") {
     exit();
 }
 
-$id = $_GET['id'];
+// Validar ID
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header("Location: admin_reservas.php");
+    exit();
+}
+
+$id = intval($_GET['id']);
 
 // Obtener datos de la reserva
 $sql = "SELECT * FROM reserva WHERE Id_Reserva = ?";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 if (!$stmt) {
-     die("Error en prepare(): " . $conexion->error); 
+     die("Error en prepare(): " . $conn->error); 
 }
 
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $reserva = $stmt->get_result()->fetch_assoc();
 
+if (!$reserva) {
+    header("Location: admin_reservas.php");
+    exit();
+}
+
 // Obtener usuarios
 $sqlUsuarios = "SELECT Id_Usuario, nombre FROM usuario";
-$usuarios = $conexion->query($sqlUsuarios);
+$usuarios = $conn->query($sqlUsuarios);
 
-// Obtener mesas
-$sqlMesas = "SELECT Id_mesa, numero_mesa FROM mesa";
-$mesas = $conexion->query($sqlMesas);
+// Obtener mesas (solo Id_mesa)
+$sqlMesas = "SELECT Id_mesa FROM mesa";
+$mesas = $conn->query($sqlMesas);
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +77,7 @@ $mesas = $conexion->query($sqlMesas);
             <?php while ($m = $mesas->fetch_assoc()) { ?>
                 <option value="<?php echo $m['Id_mesa']; ?>"
                     <?php if ($m['Id_mesa'] == $reserva['Id_mesa']) echo "selected"; ?>>
-                    Mesa <?php echo $m['numero_mesa']; ?>
+                    Mesa <?php echo $m['Id_mesa']; ?>
                 </option>
             <?php } ?>
         </select>
@@ -95,13 +106,10 @@ $mesas = $conexion->query($sqlMesas);
         </select>
 
         <button class="btn btn-primary mt-4">Actualizar</button>
-        <a href="reserva_listar.php" class="btn btn-secondary mt-4">Volver</a>
+        <a href="admin_reservas.php" class="btn btn-secondary mt-4">Volver</a>
 
     </form>
 </div>
-
-<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;"></div>
-<script src="validaciones.js"></script>
 
 </body>
 </html>

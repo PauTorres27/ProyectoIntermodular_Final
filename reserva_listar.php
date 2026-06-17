@@ -17,7 +17,7 @@ $sql = "SELECT r.Id_Reserva, r.fecha, r.hora, r.n_personas, r.estado,
         JOIN mesa m ON r.Id_mesa = m.Id_mesa
         ORDER BY r.Id_Reserva";
 
-$resultado = $conexion->query($sql);
+$resultado = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>

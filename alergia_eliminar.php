@@ -5,7 +5,7 @@ $id = $_GET['id'];
 
 
 $sql = "DELETE FROM alergia WHERE Id_alergia = ?";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
 

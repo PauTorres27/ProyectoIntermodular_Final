@@ -13,7 +13,7 @@ $id = $_GET['id'];
 
 //Obtener datos del menú
 $sql = "SELECT * FROM menu WHERE Id_menu = ?";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $menu = $stmt->get_result()->fetch_assoc();

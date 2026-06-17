@@ -7,7 +7,7 @@ $capacidad = $_POST['capacidad'];
 
 
 $sql = "UPDATE mesa SET ubicacion = ?, capacidad = ? WHERE Id_mesa = ?";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("sii", $ubicacion, $capacidad, $id);
 $stmt->execute();
 

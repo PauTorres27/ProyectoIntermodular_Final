@@ -4,7 +4,7 @@ require_once "conexion.php";
 $nombre = $_POST['nombre_alergia'];
 
 $sql = "INSERT INTO alergia (nombre_alergia) VALUES (?)";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $nombre);
 $stmt->execute();
 

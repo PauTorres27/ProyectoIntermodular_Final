@@ -7,7 +7,7 @@ $tipo = $_POST['tipo'];
 
 
 $sql = "UPDATE menu SET nombre = ?, tipo = ? WHERE Id_menu = ?";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("ssi", $nombre, $tipo, $id);
 $stmt->execute();
 

@@ -12,10 +12,10 @@ $estado = $_POST['estado'];
 $sql = "INSERT INTO reserva (Id_Usuario, Id_mesa, fecha, hora, n_personas, estado)
  VALUES (?, ?, ?, ?, ?, ?)";
 
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("iissis", $usuario, $mesa, $fecha, $hora, $personas, $estado);
 $stmt->execute();
 
-header("Location: reserva_listar.php");
+header("Location: admin_reservas.php");
 exit();
 ?>

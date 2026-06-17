@@ -59,16 +59,27 @@ $nombre = $_SESSION['nombre'];
     </div>
 
 
-    <!-- Estadisticas -->
+    <!-- Gestionar Mesas -->
       <div class="col-md-4">
         <div class="card shadow">
             <div class="card-body text-center">
-                <h5 class="card-title">Estadisticas</h5>
-                <p class="card-text">Verificar datos del restaurante</p>
-                <a href="#" class="btn btn-warning">Ver estadísticas</a>
+                <h5 class="card-title">Mesas</h5>
+                <p class="card-text">Control de las mesas en sala</p>
+                <a href="listar_mesas.php" class="btn btn-warning">Gestionar Mesas</a>
             </div>
         </div>
     </div>
+
+     <!-- Plano del Restaurante -->
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Plano del Restaurante</h5>
+                    <p class="card-text">Visualiza el plano y distribución del local</p>
+                    <a href="plano_restaurante.php" class="btn btn-info text-white">Ver plano</a>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>

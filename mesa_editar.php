@@ -13,7 +13,7 @@ $id = $_GET['id'];
 
 //Obtener datos de la mesa
 $sql = "SELECT * FROM mesa WHERE Id_mesa = ?";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $mesa = $stmt->get_result()->fetch_assoc();

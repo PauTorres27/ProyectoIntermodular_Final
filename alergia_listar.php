@@ -10,7 +10,7 @@ if (!isset($_SESSION['Id_Usuario']) || $_SESSION['rol'] !== "admin") {
 }
 
 $sql = "SELECT * FROM alergia";
-$resultado = $conexion->query($sql);
+$resultado = $conn->query($sql);
 ?>
 
 

@@ -11,7 +11,7 @@ if (!$nombre || !$email || !$mensaje) {
 }
 
 $sql = "INSERT INTO contacto (nombre, email, mensaje) VALUES (?, ?, ?)";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 if ($stmt) {
     $stmt->bind_param("sss", $nombre, $email, $mensaje);

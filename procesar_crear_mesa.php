@@ -5,7 +5,7 @@ $ubicacion = $_POST['ubicacion'];
 $capacidad = $_POST['capacidad'];
 
 $sql = "INSERT INTO mesa (ubicacion, capacidad) VALUES (?, ?)";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("si", $ubicacion, $capacidad);
 $stmt->execute();
 

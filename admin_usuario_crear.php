@@ -17,15 +17,31 @@ $contrasena = $_POST['contrasena'];
 $telefono = $_POST['telefono'];
 $rol = $_POST['rol'];
 
+//Comprobar si el email ya existe
+$sql_check = "SELECT * FROM usuario WHERE email = ?";
+$stmt_check = $conn->prepare($sql_check);
+$stmt_check->bind_param("s", $email);
+$stmt_check->execute();
+$resultado_check = $stmt_check->get_result();
+
+if ($resultado_check->num_rows > 0) {
+   $error = "El correo ya esta registrado. No se puede crear otro usuario con el mismo email";
+} else {
+
+   //Encriptar contraseña
+   $contrasena_hash = password_hash($contrasena, PASSWORD_DEFAULT);
+
+
+
 //Insertar usuario
 $sql = "INSERT INTO usuario (nombre, email, contrasena, telefono, rol) VALUES (?, ?, ?, ?, ?)";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 if (!$stmt) {
-     die("Error en prepare(): " . $conexion->error); 
+     die("Error en prepare(): " . $conn->error); 
 }
 
-$stmt->bind_param("sssss", $nombre, $email, $contrasena, $telefono, $rol);
+$stmt->bind_param("sssss", $nombre, $email, $contrasena_hash, $telefono, $rol);
 
 if ($stmt->execute()) {
     header("Location: admin_usuarios.php");
@@ -33,6 +49,8 @@ if ($stmt->execute()) {
 } else {
     $error = "Error al crear usuario";
 }
+}
+
 }
 ?>
 

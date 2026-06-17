@@ -13,7 +13,7 @@ $id = $_GET['id'];
 
 //Obtener datos de la alergia
 $sql = "SELECT * FROM alergia WHERE Id_alergia = ?";
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $alergia = $stmt->get_result()->fetch_assoc();
